@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const localtunnel = require('localtunnel');
-const { Board } = require('./models');
+// const localtunnel = require('localtunnel');
+const registerDeviceRoute = require('./routes/register-device.js');
 
 const server = express();
 
@@ -17,9 +17,9 @@ server.post('/register_device', async (req, res) => {
   await server.listen(process.env.SERVER_PORT);
   console.log('Server listening on port ' + process.env.SERVER_PORT);
 
-  let tunnel = await localtunnel({
-    port: process.env.SERVER_PORT,
-    subdomain: process.env.SERVER_SUBDOMAIN,
-  });
-  console.log('Localtunnel started at ' + tunnel.url);
+  // let tunnel = await localtunnel({
+  //   port: process.env.SERVER_PORT,
+  //   subdomain: process.env.SERVER_SUBDOMAIN,
+  // });
+  // console.log('Localtunnel started at ' + tunnel.url);
 })();
