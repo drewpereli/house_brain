@@ -11,10 +11,23 @@ module.exports = (sequelize, DataTypes) => {
     // static associate(models) {
     //     // define association here
     // }
+
+    serialize() {
+      let { id, ipAddress } = this;
+      return { id, ipAddress };
+    }
   }
+
   Board.init(
     {
-      ipAddress: DataTypes.STRING,
+      ipAddress: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isIPv4: true,
+        },
+      },
     },
     {
       sequelize,

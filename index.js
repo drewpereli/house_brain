@@ -1,17 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 // const localtunnel = require('localtunnel');
-const registerDeviceRoute = require('./routes/register-device.js');
+const boardRoutes = require('./routes/boards.js');
 
 const server = express();
 
 server.use(express.json()); // for parsing application/json
 
-server.post('/register_device', async (req, res) => {
-  let { boardId: id, ipAddress } = req.body;
-  await Board.create({ id, ipAddress });
-  res.sendStatus(200);
-});
+server.use('/boards', boardRoutes);
+
+server.get('/', (req, res) => res.send('yeah'));
 
 (async () => {
   await server.listen(process.env.SERVER_PORT);
