@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
-const { compare } = require('../helpers/crypt');
+const { compare, signJWT } = require('../helpers/crypt');
 
 router.post('/login', async (req, res, next) => {
   let user;
@@ -16,7 +16,10 @@ router.post('/login', async (req, res, next) => {
     return next({ message: 'incorrect password', status: 401 });
   }
 
-  res.sendStatus(200);
+  let serializedUser = user.serialize();
+  let token = await signJWT(serializedUser);
+
+  res.status(200).send({ ...serializedUser, token });
 });
 
 module.exports = router;

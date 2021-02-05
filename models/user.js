@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     // static associate(models) {
     //   // define association here
     // }
+    serialize() {
+      let { id, username, createdAt } = this;
+      return { id, username, createdAt };
+    }
   }
   User.init(
     {
