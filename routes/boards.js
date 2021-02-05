@@ -5,7 +5,7 @@ const { Board } = require('../models');
 router.get('/', async (req, res) => {
   let boards = await Board.findAll();
   let data = boards.map((board) => board.serialize());
-  res.send(data);
+  res.send({ boards: data });
 });
 
 // Each board will use this route to register itself with the brain. Doesn't need to return any data
