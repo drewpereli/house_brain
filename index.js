@@ -1,15 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 // const localtunnel = require('localtunnel');
+const indexRoutes = require('./routes/index.js');
 const boardRoutes = require('./routes/boards.js');
 
 const server = express();
 
 server.use(express.json()); // for parsing application/json
 
+server.use('/', indexRoutes);
 server.use('/boards', boardRoutes);
-
-server.get('/', (req, res) => res.send('yeah'));
 
 (async () => {
   await server.listen(process.env.SERVER_PORT);
