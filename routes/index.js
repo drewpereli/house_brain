@@ -9,6 +9,7 @@ router.post('/login', async (req, res, next) => {
   try {
     user = await User.findOne({ where: { username: req.body.username } });
   } catch (error) {
+    console.log(error);
     return next({ message: 'invalid username', status: 401 });
   }
 

@@ -4,6 +4,7 @@ const jwt = require('express-jwt');
 const cors = require('cors');
 const indexRoutes = require('./routes/index.js');
 const boardRoutes = require('./routes/boards.js');
+const applianceRoutes = require('./routes/appliances.js');
 const errorMiddleware = require('./middleware/error.js');
 const { HASH_ALGORITHM } = require('./helpers/crypt.js');
 
@@ -16,6 +17,7 @@ server.use(jwt({ secret: process.env.APP_SECRET, algorithms: [HASH_ALGORITHM] })
 
 server.use('/', indexRoutes);
 server.use('/boards', boardRoutes);
+server.use('/appliances', applianceRoutes);
 
 server.use(errorMiddleware);
 

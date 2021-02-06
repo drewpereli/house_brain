@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasOne(models.Board);
     }
+
+    async serialize() {
+      let { id, type, name } = this;
+
+      return { id, type, name };
+    }
   }
   Appliance.init(
     {
