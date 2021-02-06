@@ -12,15 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     async serialize() {
-      let { id, type, name } = this;
+      let { id, type, name, status } = this;
 
-      return { id, type, name };
+      return { id, type, name, status };
     }
   }
   Appliance.init(
     {
       name: DataTypes.STRING,
       type: DataTypes.ENUM(['lamp']),
+      status: {
+        type: DataTypes.ENUM(['inactive', 'active']),
+        allowNull: false,
+        defaultValue: 'inactive',
+      },
     },
     {
       sequelize,
