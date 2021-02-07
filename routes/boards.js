@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const { Board } = require('../models');
+const { compare } = require('../helpers/crypt');
 
 router.get('/', async (req, res) => {
   let boards = await Board.findAll();
@@ -9,8 +11,14 @@ router.get('/', async (req, res) => {
 });
 
 // Each board will use this route to register itself with the brain. Doesn't need to return any data
-router.post('/', async (req, res) => {
-  let { boardId: id, ipAddress } = req.body;
+router.post('/register', async (req, res) => {
+  let { id, ipAddress } = req.body;
+  let password = req.headers.auth.split(' ')[1];
+
+  if (!(await compare(password, process.env.BOARD_PASSWORD_HASH))) {
+    return res.sendStatus(401);
+  }
+
   try {
     await Board.upsert({ id, ipAddress });
   } catch (error) {

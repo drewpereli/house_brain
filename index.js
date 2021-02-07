@@ -14,7 +14,11 @@ const server = express();
 server.use(cors());
 server.use(express.json()); // for parsing application/json
 
-server.use(jwt({ secret: process.env.APP_SECRET, algorithms: [HASH_ALGORITHM] }).unless({ path: '/login' }));
+server.use(
+  jwt({ secret: process.env.APP_SECRET, algorithms: [HASH_ALGORITHM] }).unless({
+    path: ['/login', '/boards/register'],
+  })
+);
 
 server.use('/', indexRoutes);
 server.use('/boards', boardRoutes);
