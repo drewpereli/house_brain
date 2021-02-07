@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
 
       return { id, type, name, status };
     }
+
+    async updateStatus(status) {
+      await this.update({ status });
+      let board = await this.getBoard();
+      await board.requestStatus(status);
+    }
   }
   Appliance.init(
     {

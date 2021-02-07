@@ -8,7 +8,6 @@ router.get('/', async (req, res) => {
   res.send({ appliances: data });
 });
 
-// Each board will use this route to register itself with the brain. Doesn't need to return any data
 router.post('/', async (req, res, next) => {
   let {
     appliance: { name, type, board: boardId },
@@ -47,7 +46,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   let {
-    appliance: { name, type, board: boardId },
+    appliance: { name, type, status, board: boardId },
   } = req.body;
 
   let id = req.params.id;
@@ -96,6 +95,10 @@ router.put('/:id', async (req, res, next) => {
       console.log(error);
       next({ message: 'error updating board', status: 400 });
     }
+  }
+
+  if (status !== appliance.status) {
+    await appliance.updateStatus(status);
   }
 
   let response = { appliance: await appliance.serialize() };

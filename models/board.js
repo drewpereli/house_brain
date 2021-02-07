@@ -1,5 +1,7 @@
 'use strict';
+require('dotenv').config();
 const { Model } = require('sequelize');
+const axios = require('axios');
 
 module.exports = (sequelize, DataTypes) => {
   class Board extends Model {
@@ -15,6 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     serialize() {
       let { id, ipAddress, ApplianceId: appliance } = this;
       return { id, ipAddress, appliance };
+    }
+
+    async requestStatus(status) {
+      let url = new URL(`http://${this.ipAddress}`);
+      url.port = process.env.BOARD_PORT;
+      url.pathname = status === 'active' ? '/on' : '/off';
+      await axios.post(url.toString());
     }
   }
 
